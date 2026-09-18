@@ -1,0 +1,487 @@
+﻿/* Expense & Budget Visualizer — styles */
+
+/* ==========================================================
+   DESIGN TOKENS — Light mode (default)
+   ========================================================== */
+:root {
+  --color-bg:            #f5f7fa;
+  --color-surface:       #ffffff;
+  --color-primary:       #2563eb;
+  --color-primary-hover: #1d4ed8;
+  --color-text:          #1e293b;
+  --color-text-muted:    #64748b;
+  --color-border:        #e2e8f0;
+  --color-error:         #c0392b;
+  --color-balance-bg:    #1e293b;
+  --color-balance-text:  #ffffff;
+  --color-chip-bg:       #f1f5f9;
+  --color-chip-border:   #cbd5e1;
+
+  --font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-size-body:    1rem;
+  --font-size-small:   0.875rem;
+  --font-size-h2:      1.25rem;
+  --font-size-h1:      1.5rem;
+  --font-size-balance: 2.5rem;
+  --section-gap:   1.5rem;
+  --inner-gap:     1rem;
+  --border-radius: 0.5rem;
+}
+
+/* ==========================================================
+   DESIGN TOKENS — Dark mode
+   ========================================================== */
+[data-theme="dark"] {
+  --color-bg:            #0f172a;
+  --color-surface:       #1e293b;
+  --color-primary:       #3b82f6;
+  --color-primary-hover: #2563eb;
+  --color-text:          #f1f5f9;
+  --color-text-muted:    #94a3b8;
+  --color-border:        #334155;
+  --color-error:         #f87171;
+  --color-balance-bg:    #020617;
+  --color-balance-text:  #f1f5f9;
+  --color-chip-bg:       #1e293b;
+  --color-chip-border:   #475569;
+}
+
+/* ==========================================================
+   RESET
+   ========================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  max-width: 100%;
+}
+
+canvas { max-width: 100% !important; }
+
+html { font-size: 16px; }
+
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size-body);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+h1 { font-size: var(--font-size-h1); font-weight: 600; line-height: 1.3; }
+h2 { font-size: var(--font-size-h2); font-weight: 600; line-height: 1.3; margin-bottom: var(--inner-gap); }
+
+/* ==========================================================
+   BALANCE HEADER
+   ========================================================== */
+.balance-header {
+  background-color: var(--color-balance-bg);
+  color: var(--color-balance-text);
+  text-align: center;
+  padding: 2rem 1rem 1.5rem;
+  transition: background-color 0.25s ease;
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 0.5rem;
+}
+
+.balance-label {
+  font-size: var(--font-size-h1);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  opacity: 0.85;
+}
+
+#balance-display {
+  display: block;
+  font-size: var(--font-size-balance);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-balance-text);
+  line-height: 1.2;
+}
+
+/* ==========================================================
+   THEME TOGGLE BUTTON
+   ========================================================== */
+.theme-toggle {
+  position: absolute;
+  right: 0;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 2rem;
+  padding: 0.35rem 0.85rem;
+  font-family: var(--font-family);
+  font-size: var(--font-size-small);
+  font-weight: 600;
+  color: var(--color-balance-text);
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+  letter-spacing: 0.03em;
+}
+
+.theme-toggle:hover  { background: rgba(255,255,255,0.25); }
+.theme-toggle:active { transform: scale(0.96); }
+
+.theme-toggle:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* ==========================================================
+   APP CONTAINER & SECTION CARDS
+   ========================================================== */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--section-gap);
+  width: 100%;
+  max-width: 56rem;
+  margin: var(--section-gap) auto;
+  padding: 0 1rem;
+}
+
+.form-section,
+.custom-category-section,
+.transaction-list-section,
+.chart-section {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+/* ==========================================================
+   FORM
+   ========================================================== */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  margin-bottom: var(--inner-gap);
+}
+.form-group:last-of-type { margin-bottom: 0; }
+
+label {
+  font-size: var(--font-size-small);
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+input[type="text"],
+input[type="number"],
+select {
+  font-family: var(--font-family);
+  font-size: var(--font-size-body);
+  color: var(--color-text);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  padding: 0.5rem 0.75rem;
+  width: 100%;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.25s ease, color 0.25s ease;
+  appearance: auto;
+}
+
+input[type="text"]:focus-visible,
+input[type="number"]:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
+}
+
+button[type="submit"] {
+  display: inline-block;
+  margin-top: var(--inner-gap);
+  padding: 0.625rem 1.5rem;
+  font-family: var(--font-family);
+  font-size: var(--font-size-body);
+  font-weight: 600;
+  color: #ffffff;
+  background-color: var(--color-primary);
+  border: 2px solid transparent;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+button[type="submit"]:hover { background-color: var(--color-primary-hover); }
+button[type="submit"]:focus-visible { outline: 3px solid var(--color-primary); outline-offset: 3px; }
+button[type="submit"]:focus        { outline: 3px solid var(--color-primary); outline-offset: 3px; }
+
+.error {
+  font-size: var(--font-size-small);
+  color: var(--color-error);
+  min-height: 1.25em;
+}
+
+/* ==========================================================
+   CUSTOM CATEGORIES
+   ========================================================== */
+.custom-category-form {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+
+.custom-category-form input[type="text"] {
+  flex: 1;
+  min-width: 10rem;
+}
+
+.custom-category-form input[type="color"] {
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0.15rem;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+#add-category-btn {
+  padding: 0.5rem 1rem;
+  font-family: var(--font-family);
+  font-size: var(--font-size-small);
+  font-weight: 600;
+  color: #ffffff;
+  background-color: var(--color-primary);
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.15s ease;
+  flex-shrink: 0;
+}
+#add-category-btn:hover { background-color: var(--color-primary-hover); }
+#add-category-btn:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+
+.custom-category-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  min-height: 2rem;
+}
+
+.no-custom {
+  font-size: var(--font-size-small);
+  color: var(--color-text-muted);
+}
+
+.category-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.6rem;
+  background-color: var(--color-chip-bg);
+  border: 1px solid var(--color-chip-border);
+  border-radius: 2rem;
+  font-size: var(--font-size-small);
+  font-weight: 500;
+  color: var(--color-text);
+  transition: background-color 0.2s ease;
+}
+
+.chip-dot {
+  display: inline-block;
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 50%;
+  background-color: var(--chip-color, #94a3b8);
+  flex-shrink: 0;
+}
+
+.chip-delete {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  padding: 0 0.1rem;
+  line-height: 1;
+  transition: color 0.15s ease;
+  margin-left: 0.1rem;
+}
+.chip-delete:hover { color: var(--color-error); }
+.chip-delete:focus-visible { outline: 1px solid var(--color-primary); outline-offset: 1px; }
+
+/* ==========================================================
+   SORT CONTROLS + LIST HEADER
+   ========================================================== */
+.list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: var(--inner-gap);
+}
+
+.list-header h2 { margin-bottom: 0; }
+
+.sort-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.sort-controls label {
+  font-size: var(--font-size-small);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.sort-controls select {
+  width: auto;
+  font-size: var(--font-size-small);
+  padding: 0.3rem 0.6rem;
+}
+
+/* ==========================================================
+   TRANSACTION LIST
+   ========================================================== */
+#transaction-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 24rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  word-break: break-word;
+}
+
+#transaction-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1rem;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.tx-cat-dot {
+  display: inline-block;
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.tx-name {
+  flex: 1;
+  min-width: 0;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tx-amount {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.tx-category {
+  font-size: var(--font-size-small);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.delete-btn {
+  flex-shrink: 0;
+  background: none;
+  border: 1px solid var(--color-error);
+  color: var(--color-error);
+  border-radius: var(--border-radius);
+  padding: 0.25rem 0.6rem;
+  font-family: var(--font-family);
+  font-size: var(--font-size-small);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+.delete-btn:hover { background-color: var(--color-error); color: #ffffff; }
+.delete-btn:focus-visible { outline: 2px solid var(--color-error); outline-offset: 2px; }
+.delete-btn:focus          { outline: 2px solid var(--color-error); outline-offset: 2px; }
+
+#empty-list-message,
+#chart-placeholder {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-small);
+  text-align: center;
+  padding: 1rem 0;
+}
+
+#delete-error-banner,
+#chart-error-banner {
+  color: var(--color-error);
+  background-color: rgba(192,57,43,0.08);
+  border: 1px solid rgba(192,57,43,0.25);
+  border-radius: var(--border-radius);
+  padding: 0.75rem 1rem;
+  font-size: var(--font-size-small);
+  margin-top: 0.75rem;
+}
+
+/* ==========================================================
+   CHART
+   ========================================================== */
+#expense-chart {
+  max-width: 28rem;
+  max-height: 28rem;
+  margin: 0 auto;
+  display: block;
+}
+
+/* ==========================================================
+   RESPONSIVE — 600px and below
+   ========================================================== */
+@media (max-width: 600px) {
+  .form-section,
+  .custom-category-section,
+  .transaction-list-section,
+  .chart-section { padding: 1rem; }
+
+  .custom-category-form { flex-direction: column; align-items: stretch; }
+  .custom-category-form input[type="color"] { width: 100%; height: 2.5rem; }
+
+  .list-header { flex-direction: column; align-items: flex-start; }
+  .sort-controls select { width: 100%; }
+
+  #transaction-list li { flex-wrap: wrap; gap: 0.4rem; }
+  .tx-amount { flex-basis: 100%; }
+
+  button[type="submit"],
+  #add-category-btn { width: 100%; }
+}
+
+@media (max-width: 480px) {
+  .balance-header { padding: 1.5rem 1rem 1rem; }
+  #balance-display { font-size: 2rem; }
+  .theme-toggle { font-size: 0.75rem; padding: 0.3rem 0.65rem; }
+}
